@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/aop
+						http://www.springframework.org/schema/aop/spring-aop.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx.xsd
+						http://code.alibabatech.com/schema/dubbo
+						http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--开启注解扫描-->
+    <context:component-scan base-package="fsy.interfaces"></context:component-scan>
+    <context:component-scan base-package="fsy.api"></context:component-scan>
+
+    <!--切面-->
+    <bean id="aspect" class="fsy.Log.FsyApiLog"></bean>
+
+    <!--读取jdbc.properties文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
+
+    <!--jdbcTemplate-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${driverClassName}"></property>
+        <property name="url" value="${url}"></property>
+        <property name="password" value="${password}"></property>
+        <property name="username" value="${username}"></property>
+    </bean>
+
+    <!--事务-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+                 <tx:attributes>
+                     <tx:method name="find*" read-only="true" propagation="REQUIRED"/>
+                     <tx:method name="get*" read-only="true" propagation="REQUIRED"/>
+                     <tx:method name="query*" read-only="true" propagation="REQUIRED"/>
+                     <tx:method name="save*" propagation="REQUIRED" />
+                     <tx:method name="update*" propagation="REQUIRED" />
+                     <tx:method name="delete*" propagation="REQUIRED" />
+                 </tx:attributes>
+             </tx:advice>
+
+    <!--aop-->
+    <aop:config>
+        <!--事务-->
+        <aop:pointcut expression="execution(* fsy.api.service.*.*(..) )" id="businessService"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="businessService"/>
+        <!--日志-->
+        <aop:aspect ref="aspect">
+            <aop:pointcut id="pointcut"
+                          expression="execution(* fsy.api.service.*.*(..))"/>
+            <aop:after-returning method="AfterReturningLog" pointcut-ref="pointcut"/>
+            <aop:after-throwing method="AfterThrowingLog" throwing="e" pointcut-ref="pointcut"/>
+            <aop:after method="After" pointcut-ref="pointcut"/>
+            <aop:before method="Before" pointcut-ref="pointcut"/>
+        </aop:aspect>
+    </aop:config>
+
+
+
+    <import resource="dubbox.xml"/>
+</beans>
