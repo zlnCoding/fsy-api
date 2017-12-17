@@ -93,10 +93,11 @@ public class UpOrDownloadController {
                         uploadPathMin =  OSSUtils.uploadFile("min-" + originalFilename, minPath + "min-" + originalFilename, userId);
                     }
                     upOrDownService.saveUploadInfo(Const.dateFormat(new Date(System.currentTimeMillis())), type, upType, 1, desc, userId, originalFilename, fileSize, uploadPath, uploadPathMin);
-
-                    TSAUtils.tsa(minPath.getPath(),originalFilename);
-                    //上传tsa
-                    OSSUtils.uploadFile(originalFilename, minPath.getPath()+originalFilename, userId);
+                    String tsaPath= TSAUtils.tsa(minPath.getPath(),originalFilename);
+                    if(tsaPath  != null) {
+                        //上传tsa
+                        OSSUtils.uploadFile(originalFilename, tsaPath, userId);
+                    }
                     if (tempfile != null) tempfile.delete();
                     File fileMin = new File(minPath + "min-" + originalFilename);
                     if (fileMin.exists()) {
