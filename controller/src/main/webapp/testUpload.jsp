@@ -8,8 +8,7 @@
     <input type="file" name="file">
     <input type="file" name="file">
     <input type="text" name="userId"  value="31">
-    <input type="text" name="upTime" value="2017-12-05">
-    <input type="text" name="type"value="1">
+    <input type="text" name="type"value="0">
     <input type="text" name="upType" value="1">
     <input type="text" name="desc"value="132" >
     <input type="submit" value="提交">

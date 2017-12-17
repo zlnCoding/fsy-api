@@ -17,10 +17,11 @@ public interface IUpOrDownloadDao {
      * @param userId
      * @return
      */
-    List<JSONObject> getUploadListByUserId(StringBuffer sql, Integer userId,Integer pageNum,Integer type);
+    List<JSONObject> getUploadListByUserId(StringBuffer sql, Integer userId, Integer type, Integer pageNum);
 
     /**
      * 通upload id 获取信息
+     *
      * @param stringBuffer
      * @param uploadId
      * @return
@@ -29,9 +30,27 @@ public interface IUpOrDownloadDao {
 
     /**
      * 获取用户上传列表总数
+     *
      * @param stringBuffer
      * @param userId
      * @return
      */
-    int getUploadListCount(StringBuffer stringBuffer, Integer userId,Integer type);
+    int getUploadListCount(StringBuffer stringBuffer, Integer userId, Integer type);
+
+    /**
+     * 申请出证
+     *
+     * @param upload_log
+     *
+     * @return
+     */
+    int saveApplyAttest(String upload_log, JSONObject data);
+
+    /**
+     * 获取申请列表
+     * @param sql
+     * @param userId
+     * @return
+     */
+    List<JSONObject> getApplyAttestList(StringBuffer sql, Integer userId);
 }

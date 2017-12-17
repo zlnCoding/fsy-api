@@ -39,6 +39,9 @@
         <property name="dataSource" ref="dataSource"></property>
     </bean>
 
+    <!--开启事务注解-->
+    <tx:annotation-driven transaction-manager="txManager"/>
+
     <tx:advice id="txAdvice" transaction-manager="txManager">
                  <tx:attributes>
                      <tx:method name="find*" read-only="true" propagation="REQUIRED"/>

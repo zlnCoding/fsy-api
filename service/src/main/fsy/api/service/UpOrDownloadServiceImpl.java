@@ -3,9 +3,12 @@ package fsy.api.service;
 import com.alibaba.fastjson.JSONObject;
 import fsy.api.dao.IUpOrDownloadDao;
 import fsy.interfaces.IUpOrDownloadService;
+import fsy.utils.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -15,6 +18,7 @@ import java.util.List;
  * @auth zln
  * @create 2017-12-05 9:46
  */
+@Transactional
 @Service("upOrDownService")
 @com.alibaba.dubbo.config.annotation.Service(interfaceClass = fsy.interfaces.IUpOrDownloadService.class, protocol = {"dubbo"})
 public class UpOrDownloadServiceImpl implements IUpOrDownloadService {
@@ -32,10 +36,11 @@ public class UpOrDownloadServiceImpl implements IUpOrDownloadService {
      * @param originalFilename 文件名
      * @param fileSize         文件大小
      * @param uploadPath       文件存储路径
+     * @param uploadPathMin       缩略图存储路径
      * @return
      */
     @Override
-    public int saveUploadInfo(String upTime, Integer type, Integer upType, Integer upstatus, String desc, Integer userId, String originalFilename, long fileSize, String uploadPath) {
+    public int saveUploadInfo(String upTime, Integer type, Integer upType, Integer upstatus, String desc, Integer userId, String originalFilename, long fileSize, String uploadPath,String uploadPathMin) {
         JSONObject map = new JSONObject();
         map.put("upload_date", upTime);
         map.put("description", desc);
@@ -46,13 +51,20 @@ public class UpOrDownloadServiceImpl implements IUpOrDownloadService {
         map.put("original_name", originalFilename);
         map.put("upload_size", fileSize);
         map.put("upload_url", uploadPath);
+        map.put("upload_url_min", uploadPathMin);
         return upOrDownloadDao.saveUploadClient(map);
     }
 
     @Override
-    public List<JSONObject> getUploadListByUserId(Integer userId,Integer pageNum,Integer type) {
-        StringBuffer stringBuffer = new StringBuffer("select id,type,original_name,upload_date,upload_url_min from upload_client where clientUserId=? and ftp_status !=5 and type=? limit ? , 10");
-        return upOrDownloadDao.getUploadListByUserId(stringBuffer,userId,pageNum,type);
+    public List<JSONObject> getUploadListByUserId(Integer userId,Integer type,Integer pageNum) {
+        StringBuffer stringBuffer = new StringBuffer("select id,type,original_name,upload_date,upload_url_min from upload_client where clientUserId=? and ftp_status !=5 ");
+        if (type != null)  stringBuffer.append(" and type=? ");
+        else {
+            type= 0;
+            stringBuffer.append(" and type>= ? ");
+        }
+        stringBuffer.append(" limit ? , 10");
+        return upOrDownloadDao.getUploadListByUserId(stringBuffer,userId,type,pageNum);
     }
 
     @Override
@@ -63,7 +75,28 @@ public class UpOrDownloadServiceImpl implements IUpOrDownloadService {
 
     @Override
     public int getUploadListCount(Integer userId,Integer type) {
-        StringBuffer stringBuffer = new StringBuffer("select *  from upload_client where clientUserId=? and type=? ");
+        StringBuffer stringBuffer = new StringBuffer("select *  from upload_client where clientUserId=? ");
+        if (type != null)  stringBuffer.append(" and type=? ");
+        else {
+            type= 0;
+            stringBuffer.append(" and type>= ? ");
+        }
         return upOrDownloadDao.getUploadListCount(stringBuffer,userId,type);
+    }
+
+    @Override
+    public int applyAttest( Integer uploadId, Integer userId,Integer log_type) {
+        JSONObject data = new JSONObject();
+        data.put("upload_id",uploadId);
+        data.put("clientUserId",userId);
+        data.put("log_time", Const.dateFormat(new Date(System.currentTimeMillis())));
+        data.put("log_type", log_type);
+        return upOrDownloadDao.saveApplyAttest("upload_log", data);
+    }
+
+    @Override
+    public List<JSONObject> applyAttestList(Integer userId) {
+        StringBuffer sql = new StringBuffer("select * from upload_log where clientUserId=?");
+        return upOrDownloadDao.getApplyAttestList(sql,userId);
     }
 }

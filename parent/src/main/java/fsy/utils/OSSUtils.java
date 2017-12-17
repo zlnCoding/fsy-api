@@ -36,7 +36,7 @@ public class OSSUtils {
         // 指定上传并发线程数
         uploadFileRequest.setTaskNum(Runtime.getRuntime().availableProcessors());
         // 指定上传的分片大小
-        uploadFileRequest.setPartSize(5 * 1024 * 1024);
+        uploadFileRequest.setPartSize(10 * 1024 * 1024);
         // 开启断点续传
         uploadFileRequest.setEnableCheckpoint(true);
         // 断点续传上传
@@ -47,7 +47,7 @@ public class OSSUtils {
             return OSSpath.toString();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
-            return "fail";
+            return null;
         }
 
     }
@@ -72,6 +72,11 @@ public class OSSUtils {
         URL url = ossClient.generatePresignedUrl(bucketName, fileName, new Date(System.currentTimeMillis() + 1000 * 60 * 60));
         ossClient.shutdown();
         return url;
+    }
+
+    public static StringBuffer generateOSSPath(int userId, String fileName) {
+        return new StringBuffer("upload/").append(userId).append("/").append(Const.dateFormat("yyyy-MM-dd", System.currentTimeMillis()))
+                .append("/").append(fileName);
     }
 
     public static void main(String[] args) {

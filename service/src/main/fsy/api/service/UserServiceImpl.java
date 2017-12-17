@@ -6,6 +6,7 @@ import fsy.api.dao.IUserDao;
 import fsy.interfaces.IUserService;
 import fsy.utils.Const;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  * @auth zln
  * @create 2017-12-03 15:06
  */
+@Transactional
 @org.springframework.stereotype.Service("userService")
 @Service(interfaceClass = fsy.interfaces.IUserService.class, protocol = {"dubbo"})
 public class UserServiceImpl implements IUserService {

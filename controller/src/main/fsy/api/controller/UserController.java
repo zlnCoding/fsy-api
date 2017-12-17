@@ -103,18 +103,26 @@ public class UserController {
      * 忘记密码及修改密码接口
      *
      * @param phone
-     * @param password
+     * @param newPassword
+     * @param oldPassword
      * @return
      */
     @RequestMapping("/updatePassword")
     @ResponseBody
-    public JSONObject updatePassword(String phone, String password) {
+    public JSONObject updatePassword(String phone, String newPassword, String oldPassword) {
         if (!Const.isNotNull(phone)) return Const.returnFail("手机号不能为空!");
         JSONObject jsonObject = userService.getUserInfoByPhone(phone);
         if (jsonObject == null) {
             return Const.returnFail("没有该用户!");
         } else {
-            jsonObject.put("password", password);
+            if (oldPassword != null && "".equals(oldPassword)) {
+                if (jsonObject.getString("password").equals(oldPassword)) {
+                    jsonObject.put("password", newPassword);
+                }else {
+                    Const.returnFail("旧密码错误!");
+                }
+            }
+            jsonObject.put("password", newPassword);
             int result = userService.updateClientUserInfo(jsonObject);
             if (result > 0) return Const.returnSuccess("修改成功!");
             else return Const.returnFail("修改失败!");
@@ -155,7 +163,7 @@ public class UserController {
         if (!Const.isNotNull(userId)) return Const.returnFail("用户id不能为空!");
         JSONObject check = this.checkUserByPhone(phone);
 
-        if (check.get("result") == 1) {
+        if (check.getInteger("result") == 1) {
             return Const.returnFail("新手机号已存在!");
         }
         JSONObject jsonObject = userService.getUserInfoByUserId(userId);
@@ -218,6 +226,7 @@ public class UserController {
 
     /**
      * 获取用户秒帮报险信息
+     *
      * @param userId
      * @return
      */
@@ -226,6 +235,8 @@ public class UserController {
     public JSONObject getGpsInfo(Integer userId) {
         if (!Const.isNotNull(userId)) return Const.returnFail("userId不能为空!");
         JSONObject gpsInfo = userService.getGpsInfo(userId);
-        return  gpsInfo;
+        return gpsInfo;
     }
+
+
 }

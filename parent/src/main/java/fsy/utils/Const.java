@@ -8,6 +8,7 @@ import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
@@ -24,10 +25,7 @@ import java.util.*;
  */
 public class Const {
 
-    /*android app keys*/
-    public static final String ANDROID_APP_KEY = "7EECF7A8337C4C8489674C6F3DC794F3";
-    /*ios app keys*/
-    public static final String IOS_APP_KEY = "E87E4A62507C4B2AAE86BD456828484D";
+    public static final String APP_KEY = "7EECF7A8337C4C8489674C6F3DC794F3";
 
     public static final String WINDOWS_FILE_PATH = "D:/tempfile/";
     public static final String LINUX_FILE_PATH = "/usr/local/tempfile/";
@@ -68,7 +66,6 @@ public class Const {
         if (sign == null && "".equals(sign.trim())) return false;
         if (Encode == null && "".equals(Encode.trim())) return false;
         if (paramMap == null && paramMap.size() == 0) return false;
-        if (!ANDROID_APP_KEY.equals(sign) || !IOS_APP_KEY.equals(sign)) return false;
 
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.delete(0, stringBuffer.length());
@@ -88,8 +85,9 @@ public class Const {
             stringBuffer.append(sort.get(i));
         }
 
-        //加密
-        String myEncode = Encrypt.md5(stringBuffer.append("sign").append(sign).toString());
+        //MD5加密
+        String myEncode = Encrypt.md5(stringBuffer.append("sign").append(APP_KEY).toString());
+        byte[] bytes = DatatypeConverter.parseBase64Binary(myEncode);
         //比较
         if (myEncode.equals(Encode)) return true;
         return false;

@@ -23,20 +23,22 @@ public class ReducePhotoUtils {
     private Image img;
     private int width;
     private int height;
+    private String  originalFilename;
 
     @SuppressWarnings("deprecation")
     public static void main(String[] args) throws Exception {
         System.out.println("开始：" + new Date().toLocaleString());
-        ReducePhotoUtils imgCom = new ReducePhotoUtils("C:\\Users\\admin\\Desktop\\项目流程图(1).png");
-        imgCom.resizeFix(100, 100);
+        ReducePhotoUtils imgCom = new ReducePhotoUtils("C:\\Users\\admin\\Desktop\\项目流程图(1).png","项目流程图(1).png");
         System.out.println("结束：" + new Date().toLocaleString());
     }
 
-    public ReducePhotoUtils(String fileName) throws IOException {
+    public ReducePhotoUtils(String fileName,String originalFilename) throws IOException {
+        this.originalFilename = originalFilename;
         File file = new File(fileName);// 读入文件
         img = ImageIO.read(file);      // 构造Image对象
         width = img.getWidth(null);    // 得到源图宽
         height = img.getHeight(null);  // 得到源图长
+        this.resizeFix(100, 100);
     }
 
     /**
@@ -76,7 +78,7 @@ public class ReducePhotoUtils {
         // SCALE_SMOOTH 的缩略算法 生成缩略图片的平滑度的 优先级比速度高 生成的图片质量比较好 但速度慢
         BufferedImage image = new BufferedImage(w, h,BufferedImage.TYPE_INT_RGB );
         image.getGraphics().drawImage(img, 0, 0, w, h, null); // 绘制缩小后的图
-        File destFile = new File("C:\\temp\\456.jpg");
+        File destFile = new File(Const.WINDOWS_FILE_PATH+"min-"+this.originalFilename);
         FileOutputStream out = new FileOutputStream(destFile); // 输出到文件流
         // 可以正常实现bmp、png、gif转jpg
         JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
