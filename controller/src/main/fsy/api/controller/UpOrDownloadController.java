@@ -5,6 +5,7 @@ import fsy.interfaces.IUpOrDownloadService;
 import fsy.utils.Const;
 import fsy.utils.OSSUtils;
 import fsy.utils.ReducePhotoUtils;
+import fsy.utils.TSAUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,15 +83,20 @@ public class UpOrDownloadController {
                     }
 
                     mult.transferTo(tempfile);
+                    //上传资源
                     uploadPath = OSSUtils.uploadFile(originalFilename, tempfile.getPath(), userId);
 
                     if (type == 0) {
                         //生成缩略图
                         new ReducePhotoUtils(tempfile.getPath(), originalFilename);
+                        //上传缩略图
                         uploadPathMin =  OSSUtils.uploadFile("min-" + originalFilename, minPath + "min-" + originalFilename, userId);
                     }
                     upOrDownService.saveUploadInfo(Const.dateFormat(new Date(System.currentTimeMillis())), type, upType, 1, desc, userId, originalFilename, fileSize, uploadPath, uploadPathMin);
 
+                    TSAUtils.tsa(minPath.getPath(),originalFilename);
+                    //上传tsa
+                    OSSUtils.uploadFile(originalFilename, minPath.getPath()+originalFilename, userId);
                     if (tempfile != null) tempfile.delete();
                     File fileMin = new File(minPath + "min-" + originalFilename);
                     if (fileMin.exists()) {
