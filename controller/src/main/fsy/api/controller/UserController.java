@@ -3,11 +3,14 @@ package fsy.api.controller;
 import com.alibaba.fastjson.JSONObject;
 import fsy.interfaces.IUserService;
 import fsy.utils.Const;
+import fsy.utils.Encrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 描述:
@@ -25,7 +28,7 @@ public class UserController {
     public IUserService userService;
 
     /**
-     * 登录接口
+     * 账密登录接口
      *
      * @param phone    手机号
      * @param password 密码(app 已加密)
@@ -33,7 +36,7 @@ public class UserController {
      */
     @RequestMapping("/login")
     @ResponseBody
-    public JSONObject Login(String phone, String password) {
+    public JSONObject login(String phone, String password) {
 
         if (!Const.isNotNull(phone, password)) return Const.returnFail("'用户名或密码错误!");
 
@@ -46,12 +49,50 @@ public class UserController {
             JSONObject result = Const.returnSuccess("登录成功!");
             result.put("username", Const.nullToEmptyString(userInfo.get("username")));
             result.put("id", Const.nullToEmptyString(userInfo.get("id")));
+            result.put("password", Const.nullToEmptyString(userInfo.get("password")));
             result.put("auth", userInfo.get("username") != null && userInfo.get("id_card") != null ? "1" : "0");
             return result;
         } else {
             return Const.returnFail("账号或密码错误!");
         }
     }
+
+
+    /**
+     * 手机验证码登录接口
+     *
+     * @param phone 手机号
+     * @return
+     */
+    @RequestMapping("/phoneLogin")
+    @ResponseBody
+    public JSONObject phoneLogin(String phone) {
+        if (!Const.isNotNull(phone)) return Const.returnFail("手机号不能为空!");
+
+        JSONObject userInfo = userService.getUserInfoByPhone(phone);
+        if (userInfo == null) {
+            int i = userService.saveUserPhone(phone, Encrypt.md5(phone));
+            if (i > 0) {
+                JSONObject user = userService.getUserInfoByPhone(phone);
+                JSONObject result = Const.returnSuccess("登录成功!");
+                result.put("username", Const.nullToEmptyString(user.get("username")));
+                result.put("id", Const.nullToEmptyString(user.get("id")));
+                result.put("password", Const.nullToEmptyString(user.get("password")));
+                result.put("auth", user.get("username") != null && user.get("id_card") != null ? "1" : "0");
+                return result;
+            } else {
+                return Const.returnFail("请求失败!");
+            }
+        } else {
+            JSONObject result = Const.returnSuccess("登录成功!");
+            result.put("username", Const.nullToEmptyString(userInfo.get("username")));
+            result.put("id", Const.nullToEmptyString(userInfo.get("id")));
+            result.put("password", Const.nullToEmptyString(userInfo.get("password")));
+            result.put("auth", userInfo.get("username") != null && userInfo.get("id_card") != null ? "1" : "0");
+            return result;
+        }
+    }
+
 
     /**
      * 注册接口
@@ -73,6 +114,7 @@ public class UserController {
             JSONObject result = Const.returnSuccess("注册成功!");
             result.put("username", Const.nullToEmptyString(userInfo.get("username")));
             result.put("id", Const.nullToEmptyString(userInfo.get("id")));
+            result.put("password", Const.nullToEmptyString(userInfo.get("password")));
             result.put("auth", userInfo.get("username") != null && userInfo.get("id_card") != null ? "1" : "0");
             return result;
         } else {
@@ -101,28 +143,22 @@ public class UserController {
 
     /**
      * 忘记密码及修改密码接口
+     * 如果是修改密码,app端进行新旧密码校验,通过之后传新密码,
+     * 如果是忘记密码,app端进行验证码校验,通过之后传新密码
      *
      * @param phone
-     * @param newPassword
-     * @param oldPassword
+     * @param password
      * @return
      */
     @RequestMapping("/updatePassword")
     @ResponseBody
-    public JSONObject updatePassword(String phone, String newPassword, String oldPassword) {
+    public JSONObject updatePassword(String phone, String password) {
         if (!Const.isNotNull(phone)) return Const.returnFail("手机号不能为空!");
         JSONObject jsonObject = userService.getUserInfoByPhone(phone);
         if (jsonObject == null) {
             return Const.returnFail("没有该用户!");
         } else {
-            if (oldPassword != null && "".equals(oldPassword)) {
-                if (jsonObject.getString("password").equals(oldPassword)) {
-                    jsonObject.put("password", newPassword);
-                }else {
-                    Const.returnFail("旧密码错误!");
-                }
-            }
-            jsonObject.put("password", newPassword);
+            jsonObject.put("password", password);
             int result = userService.updateClientUserInfo(jsonObject);
             if (result > 0) return Const.returnSuccess("修改成功!");
             else return Const.returnFail("修改失败!");
@@ -232,11 +268,58 @@ public class UserController {
      */
     @RequestMapping("/getGpsInfo")
     @ResponseBody
-    public JSONObject getGpsInfo(Integer userId) {
+    public Object getGpsInfo(Integer userId, Integer pageNum) {
         if (!Const.isNotNull(userId)) return Const.returnFail("userId不能为空!");
-        JSONObject gpsInfo = userService.getGpsInfo(userId);
+        JSONObject gpsInfo = userService.getGpsInfo(userId, ((pageNum == null ? 1 : pageNum) - 1) * 30);
+        int totle = userService.getGpsInfoCount(userId);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("gpsInfoList", gpsInfo);
+        jsonObject.put("totle", totle);
+        return jsonObject;
+    }
+
+    /**
+     * 获取用户秒帮报险地址
+     *
+     * @param gpsInfoId
+     * @return
+     */
+    @RequestMapping("/getGpsAddr")
+    @ResponseBody
+    public JSONObject getGpsAddr(Integer gpsInfoId) {
+        if (!Const.isNotNull(gpsInfoId)) return Const.returnFail("gpsInfoId不能为空!");
+        JSONObject gpsInfo = userService.getGpsAddr(gpsInfoId);
         return gpsInfo;
     }
 
+    /**
+     * 获取秒帮上传资源列表
+     *
+     * @param gpsInfoId
+     * @param pageNum      页码
+     * @param resourceType 资源类型 0为图片与音频,1为视频
+     * @return
+     */
+    @RequestMapping("/getGpsUploadList")
+    @ResponseBody
+    public Object getGpsUploadList(Integer gpsInfoId, Integer pageNum, Integer resourceType) {
+        if (!Const.isNotNull(gpsInfoId)) return Const.returnFail("gpsInfoId不能为空!");
+        List<JSONObject> gpsUpload = userService.getGpsUploadList(gpsInfoId, ((pageNum == null ? 1 : pageNum) - 1) * 30, resourceType);
+        int totle = userService.getGpsUploadCount(gpsInfoId, resourceType);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("gpsUploadList", gpsUpload);
+        jsonObject.put("totle", totle);
+        return jsonObject;
+    }
 
+    /**
+     * 获取FTP地址
+     *
+     * @return
+     */
+    @RequestMapping("/getFTPAddr")
+    @ResponseBody
+    public Object getFTPAddr() {
+        return userService.getFTPAddr();
+    }
 }

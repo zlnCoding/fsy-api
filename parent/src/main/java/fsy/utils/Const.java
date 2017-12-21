@@ -1,6 +1,4 @@
-package fsy.utils;/**
- * Created by zln on 2017/11/28.
- */
+package fsy.utils;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSONObject;
@@ -27,8 +25,10 @@ public class Const {
 
     public static final String APP_KEY = "7EECF7A8337C4C8489674C6F3DC794F3";
 
-    public static final String WINDOWS_FILE_PATH = "D:/tempfile/";
-    public static final String LINUX_FILE_PATH = "/usr/local/tempfile/";
+    // C:\temefile
+    public static final String WINDOWS_FILE_PATH = new StringBuffer("C:").append(OSSeparator()).append("tempfile").toString();
+    //   /usr/local/tempfile
+    public static final String LINUX_FILE_PATH = new StringBuffer(OSSeparator()).append("usr").append(OSSeparator()).append("local").append(OSSeparator()).append("tempfile").toString();
 
     /**
      * 日志
@@ -165,7 +165,15 @@ public class Const {
      */
     public static String OSType() {
         String property = System.getProperties().getProperty("os.name").toLowerCase();
-        System.out.println(property);
+        return property;
+    }
+
+    /**
+     * 获取当前系统文件分割符
+     * @return
+     */
+    public static String OSSeparator() {
+        String property = System.getProperties().getProperty("file.separator");
         return property;
     }
 

@@ -24,13 +24,11 @@ public class OSSUtils {
         String bucketName = "miaosos-method";
 
         //存放路径
-        StringBuffer OSSpath = new StringBuffer("upload/");
-        OSSpath.append(userId).append("/").append(Const.dateFormat("yyyy-MM-dd", System.currentTimeMillis()))
-                .append("/").append(fileName);
+       String OSSPath = OSSPath(fileName,userId);
         // 创建OSSClient实例
         OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         // 设置断点续传请求
-        UploadFileRequest uploadFileRequest = new UploadFileRequest(bucketName, OSSpath.toString());
+        UploadFileRequest uploadFileRequest = new UploadFileRequest(bucketName, OSSPath);
         // 指定上传的本地文件
         uploadFileRequest.setUploadFile(filePath);
         // 指定上传并发线程数
@@ -44,7 +42,7 @@ public class OSSUtils {
             ossClient.uploadFile(uploadFileRequest);
             // 关闭client
             ossClient.shutdown();
-            return OSSpath.toString();
+            return OSSPath;
         } catch (Throwable throwable) {
             throwable.printStackTrace();
             return null;
@@ -74,9 +72,11 @@ public class OSSUtils {
         return url;
     }
 
-    public static StringBuffer generateOSSPath(int userId, String fileName) {
-        return new StringBuffer("upload/").append(userId).append("/").append(Const.dateFormat("yyyy-MM-dd", System.currentTimeMillis()))
+    public static String OSSPath(String fileName, int userId) {
+        StringBuffer OSSpath = new StringBuffer("upload/");
+        OSSpath.append(userId).append("/").append(Const.dateFormat("yyyy-MM-dd", System.currentTimeMillis()))
                 .append("/").append(fileName);
+        return OSSpath.toString();
     }
 
     public static void main(String[] args) {

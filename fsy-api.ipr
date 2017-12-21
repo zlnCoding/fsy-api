@@ -5,6 +5,11 @@
       <output-path>$PROJECT_DIR$/controller/target</output-path>
       <root id="archive" name="controller.war">
         <element id="artifact" artifact-name="controller:war exploded" />
+        <element id="directory" name="WEB-INF">
+          <element id="directory" name="lib">
+            <element id="file-copy" path="$USER_HOME$/Documents/Tencent Files/610857416/FileRecv/TSASDK_2.1.1/lib/tsasdk2.1.jar" />
+          </element>
+        </element>
       </root>
     </artifact>
     <artifact type="exploded-war" name="controller:war exploded">

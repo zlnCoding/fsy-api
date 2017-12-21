@@ -67,12 +67,42 @@ public class UpOrDownloadDaoImp extends BaseDao implements IUpOrDownloadDao {
     }
 
     @Override
-    public List<JSONObject> getApplyAttestList(StringBuffer sql, Integer userId) {
+    public List<JSONObject> getApplyAttestList(StringBuffer sql, Integer userId, Integer pageNum) {
         try {
-            return this.queryForJsonList(sql.toString(),userId);
+            return this.queryForJsonList(sql.toString(),userId,pageNum);
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public int getApplyListCount(StringBuffer stringBuffer, Integer userId) {
+        try {
+            return this.queryForJsonList(stringBuffer.toString(),userId).size();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public int updateFileStatus(StringBuffer stringBuffer, Integer uploadId) {
+        try {
+            return this.update(stringBuffer.toString(),uploadId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public int getUploadByName(StringBuffer stringBuffer, Integer userId, String originalFilename) {
+        try {
+        return this.queryForJsonList(stringBuffer.toString(),userId,originalFilename).size();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 

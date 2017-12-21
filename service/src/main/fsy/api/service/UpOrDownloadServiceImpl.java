@@ -57,13 +57,13 @@ public class UpOrDownloadServiceImpl implements IUpOrDownloadService {
 
     @Override
     public List<JSONObject> getUploadListByUserId(Integer userId,Integer type,Integer pageNum) {
-        StringBuffer stringBuffer = new StringBuffer("select id,type,original_name,upload_date,upload_url_min from upload_client where clientUserId=? and ftp_status !=5 ");
+        StringBuffer stringBuffer = new StringBuffer("select id,type,original_name,upload_date,upload_url_min from upload_client where clientUserId=? and ftp_status !=5 and upload_status=1 ");
         if (type != null)  stringBuffer.append(" and type=? ");
         else {
             type= 0;
             stringBuffer.append(" and type>= ? ");
         }
-        stringBuffer.append(" limit ? , 10");
+        stringBuffer.append(" limit ? , 30");
         return upOrDownloadDao.getUploadListByUserId(stringBuffer,userId,type,pageNum);
     }
 
@@ -75,7 +75,7 @@ public class UpOrDownloadServiceImpl implements IUpOrDownloadService {
 
     @Override
     public int getUploadListCount(Integer userId,Integer type) {
-        StringBuffer stringBuffer = new StringBuffer("select *  from upload_client where clientUserId=? ");
+        StringBuffer stringBuffer = new StringBuffer("select *  from upload_client where clientUserId=? and upload_status=1 ");
         if (type != null)  stringBuffer.append(" and type=? ");
         else {
             type= 0;
@@ -95,8 +95,26 @@ public class UpOrDownloadServiceImpl implements IUpOrDownloadService {
     }
 
     @Override
-    public List<JSONObject> applyAttestList(Integer userId) {
-        StringBuffer sql = new StringBuffer("select * from upload_log where clientUserId=?");
-        return upOrDownloadDao.getApplyAttestList(sql,userId);
+    public List<JSONObject> applyAttestList(Integer userId, Integer pageNum) {
+        StringBuffer sql = new StringBuffer("select * from upload_log where clientUserId=?  order by log_time desc limit ?,30");
+        return upOrDownloadDao.getApplyAttestList(sql,userId,pageNum);
+    }
+
+    @Override
+    public int getApplyListCount(Integer userId) {
+        StringBuffer stringBuffer = new StringBuffer("select *  from upload_log where clientUserId=? ");
+        return upOrDownloadDao.getApplyListCount(stringBuffer,userId);
+    }
+
+    @Override
+    public int deleteFile(Integer uploadId) {
+        StringBuffer stringBuffer = new StringBuffer("update  upload_client set upload_status=0 where id=? ");
+        return upOrDownloadDao.updateFileStatus(stringBuffer,uploadId);
+    }
+
+    @Override
+    public int getUploadByName(String originalFilename, Integer userId) {
+        StringBuffer stringBuffer = new StringBuffer("select *  from upload_client where clientUserId=? and original_name=?");
+        return upOrDownloadDao.getUploadByName(stringBuffer,userId,originalFilename);
     }
 }

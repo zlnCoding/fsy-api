@@ -42,12 +42,56 @@ public class UserDaoImpl extends BaseDao implements IUserDao {
     }
 
     @Override
-    public List<JSONObject> getDeviceNo(StringBuffer sql, Integer userId) {
-        return this.queryForJsonList(sql.toString(),userId);
+    public List<JSONObject> getDeviceNo(StringBuffer sql, Integer userId, Integer pageNum) {
+        return this.queryForJsonList(sql.toString(),userId,pageNum);
     }
 
     @Override
     public List<JSONObject> getGpsInfo(StringBuffer gpsInfoSql, String device_no) {
         return this.queryForJsonList(gpsInfoSql.toString(),device_no);
+    }
+
+    @Override
+    public JSONObject getGpsAddr(String sql, Integer gpsInfoId) {
+        List<JSONObject> list = this.queryForJsonList(sql, gpsInfoId);
+        if(list.size() > 0) {
+            return list.get(0);
+        }
+
+        return new JSONObject();
+    }
+
+    @Override
+    public int getGpsInfoCount(StringBuffer sql, Integer userId) {
+        try {
+            return this.queryForJsonList(sql.toString(),userId).size();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public List<JSONObject> getGpsUploadList(StringBuffer sql, Integer gpsInfoId, int pageNum) {
+        return this.queryForJsonList(sql.toString(),gpsInfoId,pageNum);
+    }
+
+    @Override
+    public int getGpsUploadCount(StringBuffer sql, Integer gpsInfoId) {
+        try {
+            return this.queryForJsonList(sql.toString(),gpsInfoId).size();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public JSONObject getFTPAddr(StringBuffer sql) {
+        JSONObject jsonObject = this.queryForJsonObject(sql.toString());
+        if(jsonObject == null) {
+            jsonObject = new JSONObject();
+        }
+        return jsonObject;
     }
 }

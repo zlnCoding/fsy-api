@@ -143,5 +143,9 @@ public class BaseDao {
         return jdbcTemplate.update(sql);
     }
 
+    protected int update(String sql,Object ... args) {
+        return jdbcTemplate.update(sql,args);
+    }
+
 }
 

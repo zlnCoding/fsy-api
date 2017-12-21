@@ -24,7 +24,6 @@ public class PrepareListener implements ServletContextListener {
         File tempfile=null;
         if (Const.OSType().contains("windows")) {
             tempfile = new File(Const.WINDOWS_FILE_PATH);
-
         }else {
             tempfile = new File(Const.LINUX_FILE_PATH);
         }

@@ -90,18 +90,65 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public JSONObject getGpsInfo(Integer userId) {
-        StringBuffer deviceSql = new StringBuffer("select device_no from device where client_id=?");
-        List<JSONObject> deviceNo =   userDao.getDeviceNo(deviceSql, userId);
+    public JSONObject getGpsInfo(Integer userId, Integer pageName) {
+        StringBuffer deviceSql = new StringBuffer("select device_no from device where client_id=? limit ?,30 ");
+        List<JSONObject> deviceNo =   userDao.getDeviceNo(deviceSql, userId,pageName);
         JSONObject info = new JSONObject();
         for (int i = 0; i < deviceNo.size(); i++) {
-            StringBuffer gpsInfoSql = new StringBuffer("select * from gps_info where phoneContect=?");
+            StringBuffer gpsInfoSql = new StringBuffer("select * from gps_info where phoneContect=?  order by call_time desc");
             String device_no = deviceNo.get(i).get("device_no").toString();
             List<JSONObject> gpsInfo = userDao.getGpsInfo(gpsInfoSql,device_no);
             info.put(device_no,gpsInfo);
         }
         return info;
-
     }
+
+
+    @Override
+    public int getGpsInfoCount(Integer userId) {
+        StringBuffer stringBuffer = new StringBuffer("select id  from gps_info where client_user_id=? ");
+        return userDao.getGpsInfoCount(stringBuffer,userId);
+    }
+
+    @Override
+    public List<JSONObject> getGpsUploadList(Integer gpsInfoId, int pageNum, Integer resourceType) {
+        StringBuffer sql =new StringBuffer("select * from gps_upload where gps_id=? ");
+        if (resourceType != null) {
+            if (resourceType==0 ) {
+                sql.append(" and upload_type in(0,1) ");
+            }else if(resourceType==1){
+                sql.append(" and upload_type =2 ");
+            }
+        }
+        sql.append(" order by upload_date desc limit ?,30");
+        List<JSONObject>list = userDao.getGpsUploadList(sql,gpsInfoId,pageNum);
+        return list;
+    }
+
+    @Override
+    public int getGpsUploadCount(Integer gpsInfoId, Integer resourceType) {
+        StringBuffer sql = new StringBuffer("select id  from gps_upload where gps_id=? ");
+        if (resourceType != null) {
+            if (resourceType == 0) {
+                sql.append(" and upload_type in(0,1) ");
+            } else if (resourceType == 1) {
+                sql.append(" and upload_type =2 ");
+            }
+        }
+        return userDao.getGpsUploadCount(sql,gpsInfoId);
+    }
+
+    @Override
+    public JSONObject getFTPAddr() {
+        StringBuffer sql = new StringBuffer("select *  from http_addr");
+       return  userDao.getFTPAddr(sql);
+    }
+
+    @Override
+    public JSONObject getGpsAddr(Integer gpsInfoId) {
+        StringBuffer sql = new StringBuffer("select * from gps_addr where gps_info_id=? order by gps_time desc");
+        return userDao.getGpsAddr(sql.toString(), gpsInfoId);
+    }
+
 
 }
