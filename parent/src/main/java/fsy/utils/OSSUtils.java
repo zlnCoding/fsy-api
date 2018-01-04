@@ -3,8 +3,10 @@ package fsy.utils;/**
  */
 
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.model.*;
+import com.aliyun.oss.model.UploadFileRequest;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Date;
 
@@ -17,6 +19,14 @@ import java.sql.Date;
  */
 public class OSSUtils {
 
+    /**
+     * 断电续传,本地文件方式
+     *
+     * @param fileName
+     * @param filePath
+     * @param userId
+     * @return
+     */
     public static String uploadFile(String fileName, String filePath, int userId) {
         String endpoint = "https://oss-cn-beijing.aliyuncs.com";
         String accessKeyId = "fgcLZqV8XQeM6YN2";
@@ -24,7 +34,7 @@ public class OSSUtils {
         String bucketName = "miaosos-method";
 
         //存放路径
-       String OSSPath = OSSPath(fileName,userId);
+        String OSSPath = OSSPath(fileName, userId);
         // 创建OSSClient实例
         OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         // 设置断点续传请求
@@ -48,6 +58,31 @@ public class OSSUtils {
             return null;
         }
 
+    }
+
+    /**
+     * 断电续传,InputStream方式
+     *
+     * @param fileName
+     * @param userId
+     * @return
+     */
+    public static String uploadFile(String fileName, InputStream file, int userId) throws FileNotFoundException {
+        String endpoint = "https://oss-cn-beijing.aliyuncs.com";
+        String accessKeyId = "fgcLZqV8XQeM6YN2";
+        String accessKeySecret = "LgeSczdMZBCRgk41wyZUuxvY1Bksna";
+        String bucketName = "miaosos-method";
+
+        //存放路径
+        String OSSPath = OSSPath(fileName, userId);
+        // 创建OSSClient实例
+        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+        // 上传文件流
+/*        InputStream inputStream = new FileInputStream(file);*/
+        ossClient.putObject(bucketName, OSSPath, file);
+        // 关闭client
+        ossClient.shutdown();
+        return null;
     }
 
     /**

@@ -21,7 +21,7 @@
     <context:component-scan base-package="fsy.api"></context:component-scan>
 
     <!--切面-->
-    <bean id="aspect" class="fsy.Log.FsyApiLog"></bean>
+    <bean id="aspect" class="fsy.log.FsyApiLog"></bean>
 
     <!--读取jdbc.properties文件-->
     <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>

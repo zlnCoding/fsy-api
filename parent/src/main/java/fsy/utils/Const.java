@@ -6,7 +6,6 @@ import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
@@ -61,36 +60,39 @@ public class Const {
     /**
      * 校验
      */
-    public static boolean isCheck(Map paramMap, String sign, String Encode) throws NoSuchAlgorithmException {
-
-        if (sign == null && "".equals(sign.trim())) return false;
-        if (Encode == null && "".equals(Encode.trim())) return false;
+    public static boolean isCheck(Map<String,String[]> paramMap) throws NoSuchAlgorithmException {
         if (paramMap == null && paramMap.size() == 0) return false;
 
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.delete(0, stringBuffer.length());
-
         List<String> list = new ArrayList<>();
+        String appSign= null;
         //将参数转换成key=value格式的list方便排序
-        Iterator<Map.Entry<String, String>> iterator = paramMap.entrySet().iterator();
+        Iterator<Map.Entry<String, String[]>> iterator = paramMap.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map.Entry<String, String> next = iterator.next();
-            list.add(stringBuffer.append(next.getKey()).append(next.getValue()).toString());
+            Map.Entry<String, String[]> next = iterator.next();
+            if(next.getKey().equals("sign") ) {
+                appSign = next.getValue()[0];
+                continue;
+            }
+
+            if(next.getKey().equals("file")) {
+                continue;
+            }
+            list.add(stringBuffer.append(next.getKey()).append(next.getValue()[0]).toString());
             stringBuffer.delete(0, stringBuffer.length());
         }
-
+        list.add("sign"+Const.APP_KEY);
         //排序并将结果放进stringbuffer中
         List<String> sort = CollectionUtils.sort(list);
         for (int i = 0; i < sort.size(); i++) {
             stringBuffer.append(sort.get(i));
         }
 
-        //MD5加密
-        String myEncode = Encrypt.md5(stringBuffer.append("sign").append(APP_KEY).toString());
-        byte[] bytes = DatatypeConverter.parseBase64Binary(myEncode);
+        //MD5与SHA加密
+        String myEncode = Encrypt.md5AndSha(stringBuffer.toString());
         //比较
-        if (myEncode.equals(Encode)) return true;
-        return false;
+        return myEncode.equals(appSign);
     }
 
     /**
@@ -196,8 +198,9 @@ public class Const {
         File file = new File(prefix.toString());
         return file;
     }
-    public static void main(String[] args) throws ParseException {
-        File file = fileSuffix("D://aaaaa.adf");
-        System.out.println(file.getPath());
+
+    public static void main(String[] args) {
+        File file = new File("D:\\迅雷下载\\jdbc.properties");
+        System.out.println(file.getParent());
     }
 }

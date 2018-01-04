@@ -3,6 +3,7 @@ package fsy.api.dao.impl;
 import com.alibaba.fastjson.JSONObject;
 import fsy.api.dao.BaseDao;
 import fsy.api.dao.IUpOrDownloadDao;
+import fsy.utils.Const;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class UpOrDownloadDaoImp extends BaseDao implements IUpOrDownloadDao {
         try {
             return this.insert("upload_client", args);
         } catch (Exception e) {
-            e.printStackTrace();
+            Const.logger.error(e.toString());
             return 0;
         }
 
@@ -31,7 +32,7 @@ public class UpOrDownloadDaoImp extends BaseDao implements IUpOrDownloadDao {
         try {
             return  this.queryForJsonList(sql.toString(), userId,type,pageNum);
         } catch (Exception e) {
-            e.printStackTrace();
+            Const.logger.error(e.toString());
             return new ArrayList<JSONObject>();
         }
     }
@@ -41,7 +42,7 @@ public class UpOrDownloadDaoImp extends BaseDao implements IUpOrDownloadDao {
         try {
             return this.queryForJsonObject(sql.toString(),uploadId);
         } catch (Exception e) {
-            e.printStackTrace();
+            Const.logger.error(e.toString());
             return new JSONObject();
         }
     }
@@ -51,7 +52,7 @@ public class UpOrDownloadDaoImp extends BaseDao implements IUpOrDownloadDao {
         try {
             return this.queryForJsonList(sql.toString(),userId,type).size();
         } catch (Exception e) {
-            e.printStackTrace();
+            Const.logger.error(e.toString());
             return 0;
         }
     }
@@ -61,7 +62,7 @@ public class UpOrDownloadDaoImp extends BaseDao implements IUpOrDownloadDao {
         try {
             return this.insert(upload_log,data);
         } catch (Exception e) {
-            e.printStackTrace();
+            Const.logger.error(e.toString());
             return 0;
         }
     }
@@ -71,7 +72,7 @@ public class UpOrDownloadDaoImp extends BaseDao implements IUpOrDownloadDao {
         try {
             return this.queryForJsonList(sql.toString(),userId,pageNum);
         } catch (Exception e) {
-            e.printStackTrace();
+            Const.logger.error(e.toString());
             return new ArrayList<>();
         }
     }
@@ -81,7 +82,7 @@ public class UpOrDownloadDaoImp extends BaseDao implements IUpOrDownloadDao {
         try {
             return this.queryForJsonList(stringBuffer.toString(),userId).size();
         } catch (Exception e) {
-            e.printStackTrace();
+            Const.logger.error(e.toString());
             return 0;
         }
     }
@@ -91,7 +92,7 @@ public class UpOrDownloadDaoImp extends BaseDao implements IUpOrDownloadDao {
         try {
             return this.update(stringBuffer.toString(),uploadId);
         } catch (Exception e) {
-            e.printStackTrace();
+            Const.logger.error(e.toString());
             return 0;
         }
     }
@@ -101,7 +102,7 @@ public class UpOrDownloadDaoImp extends BaseDao implements IUpOrDownloadDao {
         try {
         return this.queryForJsonList(stringBuffer.toString(),userId,originalFilename).size();
         } catch (Exception e) {
-            e.printStackTrace();
+            Const.logger.error(e.toString());
             return -1;
         }
     }

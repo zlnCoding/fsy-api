@@ -1,4 +1,4 @@
-package fsy.Log;
+package fsy.log;
 
 import fsy.utils.Const;
 import org.aspectj.lang.JoinPoint;

@@ -3,6 +3,7 @@ package fsy.api.dao.impl;
 import com.alibaba.fastjson.JSONObject;
 import fsy.api.dao.BaseDao;
 import fsy.api.dao.IUserDao;
+import fsy.utils.Const;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,27 +19,52 @@ import java.util.List;
 public class UserDaoImpl extends BaseDao implements IUserDao {
 
     public JSONObject getUserInfoByPhone(String sql, String phone) {
-        return this.queryForJsonObject(sql,phone);
+        try {
+            return this.queryForJsonObject(sql,phone);
+        } catch (Exception e) {
+            Const.logger.error(e.toString());
+            return null;
+        }
     }
 
     @Override
     public JSONObject getUserInfoByUserId(String sql, Integer userId) {
-        return this.queryForJsonObject(sql,userId);
+        try {
+            return this.queryForJsonObject(sql,userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public int saveUserPhone( String tableName, JSONObject args) {
-        return this.insert(tableName,args);
+        try {
+            return this.insert(tableName,args);
+        } catch (Exception e) {
+            Const.logger.error(e.toString());
+            return 0;
+        }
     }
 
     @Override
     public int updateClientUserInfo(String sql) {
-        return this.update(sql);
+        try {
+            return this.update(sql);
+        } catch (Exception e) {
+            Const.logger.error(e.toString());
+            return 0;
+        }
     }
 
     @Override
     public JSONObject getVersion(String sql, Integer versionId) {
-        return this.queryForJsonObject(sql,versionId);
+        try {
+            return this.queryForJsonObject(sql,versionId);
+        } catch (Exception e) {
+            Const.logger.error(e.toString());
+            return null;
+        }
     }
 
     @Override
@@ -48,7 +74,12 @@ public class UserDaoImpl extends BaseDao implements IUserDao {
 
     @Override
     public List<JSONObject> getGpsInfo(StringBuffer gpsInfoSql, String device_no) {
-        return this.queryForJsonList(gpsInfoSql.toString(),device_no);
+        try {
+            return this.queryForJsonList(gpsInfoSql.toString(),device_no);
+        } catch (Exception e) {
+            Const.logger.error(e.toString());
+            return null;
+        }
     }
 
     @Override
@@ -57,7 +88,6 @@ public class UserDaoImpl extends BaseDao implements IUserDao {
         if(list.size() > 0) {
             return list.get(0);
         }
-
         return new JSONObject();
     }
 
@@ -73,7 +103,12 @@ public class UserDaoImpl extends BaseDao implements IUserDao {
 
     @Override
     public List<JSONObject> getGpsUploadList(StringBuffer sql, Integer gpsInfoId, int pageNum) {
-        return this.queryForJsonList(sql.toString(),gpsInfoId,pageNum);
+        try {
+            return this.queryForJsonList(sql.toString(),gpsInfoId,pageNum);
+        } catch (Exception e) {
+            Const.logger.error(e.toString());
+            return null;
+        }
     }
 
     @Override

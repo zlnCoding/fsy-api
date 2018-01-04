@@ -271,11 +271,15 @@ public class UserController {
     public Object getGpsInfo(Integer userId, Integer pageNum) {
         if (!Const.isNotNull(userId)) return Const.returnFail("userId不能为空!");
         JSONObject gpsInfo = userService.getGpsInfo(userId, ((pageNum == null ? 1 : pageNum) - 1) * 30);
-        int totle = userService.getGpsInfoCount(userId);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("gpsInfoList", gpsInfo);
-        jsonObject.put("totle", totle);
-        return jsonObject;
+        if (gpsInfo != null) {
+            int totle = userService.getGpsInfoCount(userId);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("gpsInfoList", gpsInfo);
+            jsonObject.put("totle", totle);
+            return jsonObject;
+        }else {
+            return Const.returnFail("暂无报险信息!");
+        }
     }
 
     /**
@@ -305,11 +309,15 @@ public class UserController {
     public Object getGpsUploadList(Integer gpsInfoId, Integer pageNum, Integer resourceType) {
         if (!Const.isNotNull(gpsInfoId)) return Const.returnFail("gpsInfoId不能为空!");
         List<JSONObject> gpsUpload = userService.getGpsUploadList(gpsInfoId, ((pageNum == null ? 1 : pageNum) - 1) * 30, resourceType);
-        int totle = userService.getGpsUploadCount(gpsInfoId, resourceType);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("gpsUploadList", gpsUpload);
-        jsonObject.put("totle", totle);
-        return jsonObject;
+        if (gpsUpload != null) {
+            int totle = userService.getGpsUploadCount(gpsInfoId, resourceType);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("gpsUploadList", gpsUpload);
+            jsonObject.put("totle", totle);
+            return jsonObject;
+        } else {
+            return Const.returnFail("暂无上传资源!");
+        }
     }
 
     /**
@@ -321,5 +329,9 @@ public class UserController {
     @ResponseBody
     public Object getFTPAddr() {
         return userService.getFTPAddr();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(System.currentTimeMillis());
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -44,7 +45,6 @@ public class UpOrDownloadController {
 
     ExecutorService executors = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     ReentrantLock lock = new ReentrantLock();
-    Condition resourceLock = lock.newCondition();
     Condition minResourceLock = lock.newCondition();
 
     /**
@@ -72,52 +72,48 @@ public class UpOrDownloadController {
                 return Const.returnFail("文件名重复,请修改文件名");
             }
             try {
-
                 File tempfile = null;
-                File minPath = null;
                 String uploadPath = OSSUtils.OSSPath(originalFilename, userId);
                 String uploadPathMin = null;
 
                 try {
                     if (Const.OSType().contains("windows")) {
                         tempfile = new File(Const.WINDOWS_FILE_PATH + Const.OSSeparator() + originalFilename);
-                        minPath = new File(Const.WINDOWS_FILE_PATH);
                     } else {
                         tempfile = new File(Const.LINUX_FILE_PATH + Const.OSSeparator() + originalFilename);
-                        minPath = new File(Const.LINUX_FILE_PATH);
                     }
 
+                    //上传资源
+                    uploadResource(userId, originalFilename,mult.getInputStream());
+                    //生成本地文件
                     if (!tempfile.exists()) {
                         mult.transferTo(tempfile);
                     }
-                    //上传资源
-                    uploadResource(userId, originalFilename, tempfile);
-                    //uploadPath = OSSUtils.uploadFile(originalFilename, tempfile.getPath(), userId);
 
                     if (type == 0) {
                         uploadPathMin = OSSUtils.OSSPath("min-" + originalFilename, userId);
                         //生成缩略图
                         new ReducePhotoUtils(tempfile.getPath(), originalFilename);
                         //上传缩略图
-                        uploadMinPhoto(userId, originalFilename, minPath + Const.OSSeparator() + "min-" + originalFilename, type);
-                        //uploadPathMin = OSSUtils.uploadFile("min-" + originalFilename, minPath + Const.OSSeparator() + "min-" + originalFilename, userId);
+                        uploadMinPhoto(userId, originalFilename, tempfile.getParent() + Const.OSSeparator() + "min-" + originalFilename,tempfile);
                     }
-                    File tsaFile = TSAUtils.tsa(minPath.getPath() + Const.OSSeparator(), originalFilename);
+                    File tsaFile = TSAUtils.tsa(tempfile.getParent() + Const.OSSeparator(), originalFilename);
                     if (tsaFile.exists()) {
                         //上传tsa
-                        uploadTsa(userId, tsaFile, type);
-                        // OSSUtils.uploadFile(tsaFile.getName(), tsaFile.getPath(), userId);
+                        uploadTsa(userId, tsaFile);
                     }
-
+                    //上传成功入库
                     upOrDownService.saveUploadInfo(Const.dateFormat(new Date(System.currentTimeMillis())), type, upType, 1, desc, userId, originalFilename, fileSize, uploadPath, uploadPathMin);
-
                 } catch (IOException e) {
+                    //上传失败入库 但size为0表示失败
                     upOrDownService.saveUploadInfo(Const.dateFormat(new Date(System.currentTimeMillis())), type, upType, 1, desc, userId, originalFilename, 0, uploadPath, uploadPathMin);
                     e.printStackTrace();
+                    Const.logger.error(e.toString());
                     return Const.returnFail("上传失败!");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                Const.logger.error(e.toString());
                 return Const.returnFail("上传失败!");
             }
         }
@@ -125,23 +121,20 @@ public class UpOrDownloadController {
     }
 
     /**
-     *
      * 上传原文件
      */
-    public synchronized void uploadResource(final Integer userId, final String originalFilename, final File tempfile ) throws ExecutionException, InterruptedException {
+    public synchronized void uploadResource(final Integer userId, final String originalFilename, final InputStream file) throws ExecutionException, InterruptedException {
 
         executors.execute(new Runnable() {
             @Override
             public void run() {
                 try {
                     lock.lock();
-                    OSSUtils.uploadFile(originalFilename, tempfile.getPath(), userId);
-                    resourceLock.await();
-                    if (tempfile != null) tempfile.delete();
-                System.out.println("3        " + originalFilename);
+                    OSSUtils.uploadFile(originalFilename, file, userId);
+                    //OSSUtils.uploadFile(originalFilename, tempfile.getPath(), userId);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                }finally {
+                    Const.logger.error(e.toString());
+                } finally {
                     lock.unlock();
                 }
             }
@@ -151,34 +144,30 @@ public class UpOrDownloadController {
 
     /**
      * 上传缩略图
+     *
      * @param userId
      * @param originalFilename
      * @param minPath
-     * @param type
+     * @param tempfile
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public synchronized void uploadMinPhoto(final Integer userId, final String originalFilename, final String minPath, final Integer type) throws ExecutionException, InterruptedException {
+    public synchronized void uploadMinPhoto(final Integer userId, final String originalFilename, final String minPath,final File tempfile) throws ExecutionException, InterruptedException {
         executors.execute(new Runnable() {
             @Override
             public void run() {
                 try {
                     lock.lock();
-                    if (type != 0) {
-                        resourceLock.signal();
-                    } else {
-                        OSSUtils.uploadFile("min-" + originalFilename, minPath, userId);
-                        minResourceLock.await();
-                        File fileMin = new File(minPath);
-                        if (fileMin.exists()) {
-                            fileMin.delete();
-                        }
+                    File fileMin = new File(minPath);
+                    if (fileMin.exists()) {
+                    OSSUtils.uploadFile("min-" + originalFilename, minPath, userId);
+                        fileMin.delete();
                     }
-                System.out.println("2     min-" + originalFilename);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }finally {
-                    resourceLock.signal();
+                    minResourceLock.await();
+                    if (tempfile != null) tempfile.delete();
+                } catch (Exception e) {
+                    Const.logger.error(e.toString());
+                } finally {
                     lock.unlock();
                 }
             }
@@ -188,12 +177,13 @@ public class UpOrDownloadController {
 
     /**
      * 上传tsa文件
+     *
      * @param userId
      * @param tsaFile
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public synchronized void uploadTsa(final Integer userId, final File tsaFile, final Integer type) throws ExecutionException, InterruptedException {
+    public synchronized void uploadTsa(final Integer userId, final File tsaFile) throws ExecutionException, InterruptedException {
 
         executors.execute(new Runnable() {
             @Override
@@ -204,15 +194,10 @@ public class UpOrDownloadController {
                     if (tsaFile.exists()) {
                         tsaFile.delete();
                     }
-                System.out.println("1    " + tsaFile.getName());
                 } catch (Exception e) {
-                    e.printStackTrace();
-                }finally {
-                    if (type != 0) {
-                        resourceLock.signal();
-                    } else {
-                        minResourceLock.signal();
-                    }
+                    Const.logger.error(e.toString());
+                } finally {
+                    minResourceLock.signal();
                     lock.unlock();
                 }
             }
@@ -234,11 +219,11 @@ public class UpOrDownloadController {
         List<JSONObject> list = upOrDownService.getUploadListByUserId(userId, type, ((pageNum == null ? 1 : pageNum) - 1) * 30);
         //生成缩略图地址
         for (JSONObject jsonObject : list) {
-            if(jsonObject.getInteger("type") !=0) {
+            if (jsonObject.getInteger("type") != 0) {
                 continue;
             }
             String s = minPhotoUrl(jsonObject.getString(("upload_url_min")));
-            jsonObject.put("upload_url_min",s);
+            jsonObject.put("upload_url_min", s);
         }
         int totle = upOrDownService.getUploadListCount(userId, type);
         JSONObject jsonObject = new JSONObject();
@@ -271,9 +256,9 @@ public class UpOrDownloadController {
     public String minPhotoUrl(String uploadUrlMin) {
         return OSSUtils.downloadFile(uploadUrlMin).toString();
     }
+
     /**
      * 伪删除,修改upload_client中的 upload_status为0
-     *
      * @param uploadId
      * @return
      */
