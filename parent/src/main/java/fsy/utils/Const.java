@@ -92,6 +92,7 @@ public class Const {
         //MD5与SHA加密
         String myEncode = Encrypt.md5AndSha(stringBuffer.toString());
         //比较
+        logger.info(myEncode);
         return myEncode.equals(appSign);
     }
 
