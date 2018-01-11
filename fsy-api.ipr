@@ -1,97 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ArtifactManager">
-    <artifact type="war" name="controller:war">
-      <output-path>$PROJECT_DIR$/controller/target</output-path>
-      <root id="archive" name="controller.war">
-        <element id="artifact" artifact-name="controller:war exploded" />
-        <element id="directory" name="WEB-INF">
-          <element id="directory" name="lib">
-            <element id="file-copy" path="$USER_HOME$/Documents/Tencent Files/610857416/FileRecv/TSASDK_2.1.1/lib/tsasdk2.1.jar" />
-          </element>
-        </element>
+    <artifact type="war" name="fzy-service:war">
+      <output-path>$PROJECT_DIR$/fzy-service/target</output-path>
+      <root id="archive" name="fzy-service.war">
+        <element id="artifact" artifact-name="fzy-service:war exploded" />
       </root>
     </artifact>
-    <artifact type="exploded-war" name="controller:war exploded">
-      <output-path>$PROJECT_DIR$/controller/target/controller</output-path>
+    <artifact type="exploded-war" name="fzy-service:war exploded">
+      <output-path>$PROJECT_DIR$/fzy-service/target/fzy-service</output-path>
       <root id="root">
         <element id="directory" name="WEB-INF">
           <element id="directory" name="classes">
-            <element id="module-output" name="controller" />
-          </element>
-          <element id="directory" name="lib">
-            <element id="archive" name="parent-1.0-SNAPSHOT.jar">
-              <element id="module-output" name="parent" />
-            </element>
-            <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.2.2" />
-            <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.2.2" />
-            <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.7.RELEASE" />
-            <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-context:4.3.7.RELEASE" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.3.7.RELEASE" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.3.7.RELEASE" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.3.7.RELEASE" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.3.7.RELEASE" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-test:4.3.7.RELEASE" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-web:4.3.7.RELEASE" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.3.7.RELEASE" />
-            <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.3.7.RELEASE" />
-            <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.5.4" />
-            <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
-            <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.41" />
-            <element id="library" level="project" name="Maven: com.alibaba:dubbo:2.8.4" />
-            <element id="library" level="project" name="Maven: org.javassist:javassist:3.20.0-GA" />
-            <element id="library" level="project" name="Maven: org.apache.zookeeper:zookeeper:3.4.9" />
-            <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.6.1" />
-            <element id="library" level="project" name="Maven: log4j:log4j:1.2.16" />
-            <element id="library" level="project" name="Maven: jline:jline:0.9.94" />
-            <element id="library" level="project" name="Maven: io.netty:netty:3.10.5.Final" />
-            <element id="library" level="project" name="Maven: com.github.sgroschupf:zkclient:0.1" />
-            <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.29" />
-            <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:4.0.0-b03" />
-            <element id="library" level="project" name="Maven: com.aliyun.oss:aliyun-sdk-oss:2.8.2" />
-            <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.4.1" />
-            <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.1" />
-            <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
-            <element id="library" level="project" name="Maven: org.jdom:jdom:1.1" />
-            <element id="library" level="project" name="Maven: net.sf.json-lib:json-lib:jdk15:2.4" />
-            <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.8.0" />
-            <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.1" />
-            <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.5" />
-            <element id="library" level="project" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" />
-            <element id="library" level="project" name="Maven: commons-io:commons-io:1.3.2" />
-            <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.3.2" />
-            <element id="library" level="project" name="Maven: org.apache.rocketmq:rocketmq-client:4.0.0-incubating" />
-            <element id="library" level="project" name="Maven: org.apache.rocketmq:rocketmq-common:4.0.0-incubating" />
-            <element id="library" level="project" name="Maven: org.apache.rocketmq:rocketmq-remoting:4.0.0-incubating" />
-            <element id="library" level="project" name="Maven: io.netty:netty-all:4.0.36.Final" />
-            <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.4" />
-            <element id="library" level="project" name="Maven: org.fusesource:sigar:1.6.4" />
-            <element id="library" level="project" name="Maven: org.bouncycastle:bcmail-jdk15:1.46" />
-            <element id="library" level="project" name="Maven: org.bouncycastle:bcpg-jdk15:1.46" />
-            <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk15:1.46" />
-            <element id="library" level="project" name="Maven: org.bouncycastle:bctsp-jdk15:1.46" />
-          </element>
-        </element>
-        <element id="directory" name="META-INF">
-          <element id="file-copy" path="$PROJECT_DIR$/controller/target/controller/META-INF/MANIFEST.MF" />
-        </element>
-        <element id="javaee-facet-resources" facet="controller/web/Web" />
-      </root>
-    </artifact>
-    <artifact type="war" name="service:war">
-      <output-path>$PROJECT_DIR$/service/target</output-path>
-      <root id="archive" name="service.war">
-        <element id="artifact" artifact-name="service:war exploded" />
-      </root>
-    </artifact>
-    <artifact type="exploded-war" name="service:war exploded">
-      <output-path>$PROJECT_DIR$/service/target/service</output-path>
-      <root id="root">
-        <element id="directory" name="WEB-INF">
-          <element id="directory" name="classes">
-            <element id="module-output" name="service" />
+            <element id="module-output" name="fzy-service" />
           </element>
           <element id="directory" name="lib">
             <element id="archive" name="parent-1.0-SNAPSHOT.jar">
@@ -116,6 +37,7 @@
             <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.5.4" />
             <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
             <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.41" />
+            <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.5" />
             <element id="library" level="project" name="Maven: com.alibaba:dubbo:2.8.4" />
             <element id="library" level="project" name="Maven: org.javassist:javassist:3.20.0-GA" />
             <element id="library" level="project" name="Maven: org.apache.zookeeper:zookeeper:3.4.9" />
@@ -138,11 +60,7 @@
             <element id="library" level="project" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" />
             <element id="library" level="project" name="Maven: commons-io:commons-io:1.3.2" />
             <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.3.2" />
-            <element id="library" level="project" name="Maven: org.apache.rocketmq:rocketmq-client:4.0.0-incubating" />
-            <element id="library" level="project" name="Maven: org.apache.rocketmq:rocketmq-common:4.0.0-incubating" />
-            <element id="library" level="project" name="Maven: org.apache.rocketmq:rocketmq-remoting:4.0.0-incubating" />
-            <element id="library" level="project" name="Maven: io.netty:netty-all:4.0.36.Final" />
-            <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.4" />
+            <element id="library" level="project" name="Maven: redis.clients:jedis:2.0.0" />
             <element id="library" level="project" name="Maven: org.fusesource:sigar:1.6.4" />
             <element id="library" level="project" name="Maven: org.bouncycastle:bcmail-jdk15:1.46" />
             <element id="library" level="project" name="Maven: org.bouncycastle:bcpg-jdk15:1.46" />
@@ -151,9 +69,163 @@
           </element>
         </element>
         <element id="directory" name="META-INF">
-          <element id="file-copy" path="$PROJECT_DIR$/service/target/service/META-INF/MANIFEST.MF" />
+          <element id="file-copy" path="$PROJECT_DIR$/fzy-service/target/fzy-service/META-INF/MANIFEST.MF" />
         </element>
-        <element id="javaee-facet-resources" facet="service/web/Web" />
+        <element id="javaee-facet-resources" facet="fzy-service/web/Web" />
+      </root>
+    </artifact>
+    <artifact type="war" name="fzy-controller:war">
+      <output-path>$PROJECT_DIR$/fzy-controller/target</output-path>
+      <root id="archive" name="fzy-controller.war">
+        <element id="artifact" artifact-name="fzy-controller:war exploded" />
+      </root>
+    </artifact>
+    <artifact type="exploded-war" name="fzy-controller:war exploded">
+      <output-path>$PROJECT_DIR$/fzy-controller/target/fzy-controller</output-path>
+      <root id="root">
+        <element id="directory" name="WEB-INF">
+          <element id="directory" name="classes">
+            <element id="module-output" name="fzy-controller" />
+          </element>
+          <element id="directory" name="lib">
+            <element id="archive" name="parent-1.0-SNAPSHOT.jar">
+              <element id="module-output" name="parent" />
+            </element>
+            <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.2.2" />
+            <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.2.2" />
+            <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-context:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-test:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-web:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.5.4" />
+            <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
+            <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.41" />
+            <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.5" />
+            <element id="library" level="project" name="Maven: com.alibaba:dubbo:2.8.4" />
+            <element id="library" level="project" name="Maven: org.javassist:javassist:3.20.0-GA" />
+            <element id="library" level="project" name="Maven: org.apache.zookeeper:zookeeper:3.4.9" />
+            <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.6.1" />
+            <element id="library" level="project" name="Maven: log4j:log4j:1.2.16" />
+            <element id="library" level="project" name="Maven: jline:jline:0.9.94" />
+            <element id="library" level="project" name="Maven: io.netty:netty:3.10.5.Final" />
+            <element id="library" level="project" name="Maven: com.github.sgroschupf:zkclient:0.1" />
+            <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.29" />
+            <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:4.0.0-b03" />
+            <element id="library" level="project" name="Maven: com.aliyun.oss:aliyun-sdk-oss:2.8.2" />
+            <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.4.1" />
+            <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.1" />
+            <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
+            <element id="library" level="project" name="Maven: org.jdom:jdom:1.1" />
+            <element id="library" level="project" name="Maven: net.sf.json-lib:json-lib:jdk15:2.4" />
+            <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.8.0" />
+            <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.1" />
+            <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.5" />
+            <element id="library" level="project" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" />
+            <element id="library" level="project" name="Maven: commons-io:commons-io:1.3.2" />
+            <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.3.2" />
+            <element id="library" level="project" name="Maven: redis.clients:jedis:2.0.0" />
+            <element id="library" level="project" name="Maven: org.fusesource:sigar:1.6.4" />
+            <element id="library" level="project" name="Maven: org.bouncycastle:bcmail-jdk15:1.46" />
+            <element id="library" level="project" name="Maven: org.bouncycastle:bcpg-jdk15:1.46" />
+            <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk15:1.46" />
+            <element id="library" level="project" name="Maven: org.bouncycastle:bctsp-jdk15:1.46" />
+          </element>
+        </element>
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/fzy-controller/target/fzy-controller/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="javaee-facet-resources" facet="fzy-controller/web/Web" />
+      </root>
+    </artifact>
+    <artifact type="exploded-war" name="fsy-controller:war exploded">
+      <output-path>$PROJECT_DIR$/fsy-controller/target/fsy-controller</output-path>
+      <root id="root">
+        <element id="directory" name="WEB-INF">
+          <element id="directory" name="classes">
+            <element id="module-output" name="fsy-controller" />
+          </element>
+          <element id="directory" name="lib">
+            <element id="archive" name="parent-1.0-SNAPSHOT.jar">
+              <element id="module-output" name="parent" />
+            </element>
+            <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.2.2" />
+            <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.2.2" />
+            <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-context:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-test:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-web:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.3.7.RELEASE" />
+            <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.5.4" />
+            <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
+            <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.41" />
+            <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.5" />
+            <element id="library" level="project" name="Maven: com.alibaba:dubbo:2.8.4" />
+            <element id="library" level="project" name="Maven: org.javassist:javassist:3.20.0-GA" />
+            <element id="library" level="project" name="Maven: org.apache.zookeeper:zookeeper:3.4.9" />
+            <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.6.1" />
+            <element id="library" level="project" name="Maven: log4j:log4j:1.2.16" />
+            <element id="library" level="project" name="Maven: jline:jline:0.9.94" />
+            <element id="library" level="project" name="Maven: io.netty:netty:3.10.5.Final" />
+            <element id="library" level="project" name="Maven: com.github.sgroschupf:zkclient:0.1" />
+            <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.29" />
+            <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:4.0.0-b03" />
+            <element id="library" level="project" name="Maven: com.aliyun.oss:aliyun-sdk-oss:2.8.2" />
+            <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.4.1" />
+            <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.1" />
+            <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
+            <element id="library" level="project" name="Maven: org.jdom:jdom:1.1" />
+            <element id="library" level="project" name="Maven: net.sf.json-lib:json-lib:jdk15:2.4" />
+            <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.8.0" />
+            <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.1" />
+            <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.5" />
+            <element id="library" level="project" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" />
+            <element id="library" level="project" name="Maven: commons-io:commons-io:1.3.2" />
+            <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.3.2" />
+            <element id="library" level="project" name="Maven: redis.clients:jedis:2.0.0" />
+            <element id="library" level="project" name="Maven: org.fusesource:sigar:1.6.4" />
+            <element id="library" level="project" name="Maven: org.bouncycastle:bcmail-jdk15:1.46" />
+            <element id="library" level="project" name="Maven: org.bouncycastle:bcpg-jdk15:1.46" />
+            <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk15:1.46" />
+            <element id="library" level="project" name="Maven: org.bouncycastle:bctsp-jdk15:1.46" />
+          </element>
+        </element>
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/fsy-controller/target/fsy-controller/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="javaee-facet-resources" facet="fsy-controller/web/Web" />
+      </root>
+    </artifact>
+    <artifact type="war" name="fsy-controller:war">
+      <output-path>$PROJECT_DIR$/fsy-controller/target</output-path>
+      <root id="archive" name="fsy-controller.war">
+        <element id="artifact" artifact-name="fsy-controller:war exploded" />
+      </root>
+    </artifact>
+    <artifact type="exploded-war" name="fsy-service:war exploded">
+      <output-path>$PROJECT_DIR$/out/artifacts/fsy_service_war_exploded</output-path>
+      <root id="root">
+        <element id="javaee-facet-resources" facet="fsy-service/web/Web" />
+      </root>
+    </artifact>
+    <artifact type="war" name="fsy-service:war">
+      <output-path>$PROJECT_DIR$/out/artifacts/fsy_service_war</output-path>
+      <root id="archive" name="fsy-service_war.war">
+        <element id="artifact" artifact-name="fsy-service:war exploded" />
       </root>
     </artifact>
   </component>
@@ -163,23 +235,40 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="controller" />
-        <module name="service" />
+        <module name="fsy-controller" />
+        <module name="fsy-service" />
+        <module name="fzy-controller" />
+        <module name="fzy-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
       <module name="controller" target="1.7" />
+      <module name="fsy-controller" target="1.7" />
+      <module name="fsy-service" target="1.7" />
+      <module name="fzy-controller" target="1.7" />
+      <module name="fzy-service" target="1.7" />
       <module name="parent" target="1.7" />
       <module name="service" target="1.7" />
     </bytecodeTargetLevel>
   </component>
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/controller" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fsy-controller" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fsy-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fsy-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fsy-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fsy-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fzy-controller" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fzy-service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/parent" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service" charset="UTF-8" />
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/controller" />
+    <file type="web" url="file://$PROJECT_DIR$/fsy-controller" />
+    <file type="web" url="file://$PROJECT_DIR$/fsy-service" />
+    <file type="web" url="file://$PROJECT_DIR$/fzy-controller" />
+    <file type="web" url="file://$PROJECT_DIR$/fzy-service" />
     <file type="web" url="file://$PROJECT_DIR$/mqprovider" />
     <file type="web" url="file://$PROJECT_DIR$/service" />
   </component>
@@ -201,11 +290,15 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/parent/pom.xml" />
+        <option value="$PROJECT_DIR$/fsy-controller/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/controller/pom.xml" />
+        <option value="$PROJECT_DIR$/fsy-service/pom.xml" />
         <option value="$PROJECT_DIR$/mqprovider/pom.xml" />
+        <option value="$PROJECT_DIR$/service/pom.xml" />
       </set>
     </option>
   </component>
@@ -336,9 +429,11 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/controller/controller.iml" filepath="$PROJECT_DIR$/controller/controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fsy-controller/fsy-controller.iml" filepath="$PROJECT_DIR$/fsy-controller/fsy-controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fsy-service/fsy-service.iml" filepath="$PROJECT_DIR$/fsy-service/fsy-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fzy-controller/fzy-controller.iml" filepath="$PROJECT_DIR$/fzy-controller/fzy-controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fzy-service/fzy-service.iml" filepath="$PROJECT_DIR$/fzy-service/fzy-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/service/service.iml" filepath="$PROJECT_DIR$/service/service.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="false" project-jdk-name="1.7" project-jdk-type="JavaSDK">
@@ -511,15 +606,15 @@
         <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.2/commons-logging-1.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: io.netty:netty-all:4.0.36.Final">
+    <library name="Maven: commons-pool:commons-pool:1.5">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-all/4.0.36.Final/netty-all-4.0.36.Final.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/commons-pool/commons-pool/1.5/commons-pool-1.5.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-all/4.0.36.Final/netty-all-4.0.36.Final-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/commons-pool/commons-pool/1.5/commons-pool-1.5-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/io/netty/netty-all/4.0.36.Final/netty-all-4.0.36.Final-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/commons-pool/commons-pool/1.5/commons-pool-1.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: io.netty:netty:3.10.5.Final">
@@ -621,17 +716,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/net/sf/json-lib/json-lib/2.4/json-lib-2.4-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.apache.commons:commons-lang3:3.4">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.apache.httpcomponents:httpclient:4.4.1">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.4.1/httpclient-4.4.1.jar!/" />
@@ -652,39 +736,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpcore/4.4.1/httpcore-4.4.1-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.apache.rocketmq:rocketmq-client:4.0.0-incubating">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/rocketmq/rocketmq-client/4.0.0-incubating/rocketmq-client-4.0.0-incubating.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/rocketmq/rocketmq-client/4.0.0-incubating/rocketmq-client-4.0.0-incubating-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/rocketmq/rocketmq-client/4.0.0-incubating/rocketmq-client-4.0.0-incubating-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.apache.rocketmq:rocketmq-common:4.0.0-incubating">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/rocketmq/rocketmq-common/4.0.0-incubating/rocketmq-common-4.0.0-incubating.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/rocketmq/rocketmq-common/4.0.0-incubating/rocketmq-common-4.0.0-incubating-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/rocketmq/rocketmq-common/4.0.0-incubating/rocketmq-common-4.0.0-incubating-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.apache.rocketmq:rocketmq-remoting:4.0.0-incubating">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/rocketmq/rocketmq-remoting/4.0.0-incubating/rocketmq-remoting-4.0.0-incubating.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/rocketmq/rocketmq-remoting/4.0.0-incubating/rocketmq-remoting-4.0.0-incubating-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/rocketmq/rocketmq-remoting/4.0.0-incubating/rocketmq-remoting-4.0.0-incubating-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.apache.zookeeper:zookeeper:3.4.9">
@@ -927,6 +978,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/4.3.7.RELEASE/spring-webmvc-4.3.7.RELEASE-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: redis.clients:jedis:2.0.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/redis/clients/jedis/2.0.0/jedis-2.0.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/redis/clients/jedis/2.0.0/jedis-2.0.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/redis/clients/jedis/2.0.0/jedis-2.0.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="tsasdk2.1">
