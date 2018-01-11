@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="fsy-api-controller" organization="dubbox"/>
+
+    <!--注册中心-->
+    <!--<dubbo:registry address="zookeeper://47.93.123.200:2181?backup=182.92.106.175:2181,101.200.126.50:2181" check="false"/>-->
+    <dubbo:registry address="redis://182.92.106.175:6379" check="false"/>
+    
+    <dubbo:reference interface="fsy.interfaces.IUserService" id="userService"  check="false"/>
+
+    <dubbo:reference interface="fsy.interfaces.IUpOrDownloadService" id="upOrDownService" timeout="1200000" check="false"/>
+
+</beans>

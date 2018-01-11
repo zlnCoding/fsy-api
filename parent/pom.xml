@@ -6,12 +6,10 @@
     <artifactId>parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>../controller</module>
-        <module>../service</module>
+        <module>../fzy-controller</module>
+        <module>../fzy-service</module>
         <module>../fsy-controller</module>
         <module>../fsy-service</module>
-        <module>../fzy-service</module>
-        <module>../fzy-controller</module>
     </modules>
     <packaging>pom</packaging>
 
