@@ -7,9 +7,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="tsasdk2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.0" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.2.2" level="project" />
@@ -57,5 +56,6 @@
     <orderEntry type="library" name="Maven: org.bouncycastle:bcpg-jdk15:1.46" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15:1.46" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bctsp-jdk15:1.46" level="project" />
+    <orderEntry type="library" name="Maven: tsa:tsa:0.0.1" level="project" />
   </component>
 </module>

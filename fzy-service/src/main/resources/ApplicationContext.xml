@@ -17,11 +17,11 @@
 						http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <!--开启注解扫描-->
-    <context:component-scan base-package="fsy.interfaces"></context:component-scan>
-    <context:component-scan base-package="fsy.api"></context:component-scan>
+    <context:component-scan base-package="com.fsy.api.interfaces"></context:component-scan>
+    <context:component-scan base-package="com.fzy.api"></context:component-scan>
 
     <!--切面-->
-    <bean id="aspect" class="fsy.log.FsyApiLog"></bean>
+    <bean id="aspect" class="com.fsy.api.log.FsyApiLog"></bean>
 
     <!--读取jdbc.properties文件-->
     <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
@@ -56,12 +56,12 @@
     <!--aop-->
     <aop:config>
         <!--事务-->
-        <aop:pointcut expression="execution(* fsy.api.service.*.*(..) )" id="businessService"/>
+        <aop:pointcut expression="execution(* com.fzy.api.service.*.*(..) )" id="businessService"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="businessService"/>
         <!--日志-->
         <aop:aspect ref="aspect">
             <aop:pointcut id="pointcut"
-                          expression="execution(* fsy.api.service.*.*(..))"/>
+                          expression="execution(* com.fzy.api.service.*.*(..))"/>
             <aop:after-returning method="AfterReturningLog" pointcut-ref="pointcut"/>
             <aop:after-throwing method="AfterThrowingLog" throwing="e" pointcut-ref="pointcut"/>
             <aop:after method="After" pointcut-ref="pointcut"/>
@@ -71,5 +71,5 @@
 
 
 
-    <import resource="dubbox.xml"/>
+    <import resource="dubbo-fzy-provider.xml"/>
 </beans>

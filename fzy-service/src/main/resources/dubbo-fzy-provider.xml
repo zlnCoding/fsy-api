@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--服务名称,并指定用dubbox-->
+    <dubbo:application name="dubbo-fzy-provider"  organization="dubbox"/>
+
+    <!--服务端启用注解-->
+    <dubbo:annotation package="com.fzy.api.service"/>
+
+    <!--协议-->
+    <dubbo:protocol name="dubbo" port="21882"/>
+
+    <!--注册中心-->
+    <!--<dubbo:registry address="zookeeper://47.93.123.200:2181?backup=182.92.106.175:2181,101.200.126.50:2181" check="false"/>-->
+    <dubbo:registry address="redis://182.92.106.175:6379"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <dubbo:application name="com.fsy-api-service" organization="dubbox"/>
+
+     <dubbo:annotation package="com.fsy.api.service"/>
+
+     <dubbo:protocol name="dubbo" port="21881"/>
+
+     <dubbo:registry address="zookeeper://172.16.255.166:2181?backup=172.16.255.177:2181,172.16.255.188:2181"/>-->
+
+
+</beans>
