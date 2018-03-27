@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Title</title>
+    <script type="text/javascript" src="/jquery.min.js" />
 </head>
 <body>
 <form action="/file/upload" method="post" enctype="multipart/form-data">

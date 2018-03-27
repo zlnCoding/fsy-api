@@ -26,6 +26,8 @@
 
     <bean id="aspect" class="com.fsy.api.log.FsyApiLog"></bean>
 
+    <mvc:resources mapping="/**/**" location="/webapp">
+    </mvc:resources>
     <aop:config>
         <aop:aspect ref="aspect">
             <aop:pointcut id="pointcut"
